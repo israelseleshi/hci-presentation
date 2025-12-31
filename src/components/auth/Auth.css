@@ -1,0 +1,27 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 72px); /* Adjust 72px based on header height */
+  background-color: #f8f9fa;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.auth-card .form-control-lg {
+  font-size: 1rem;
+}
+
+.auth-card h1.h2 {
+    font-size: 1.75rem;
+}
+
+.auth-card .btn-lg {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+}

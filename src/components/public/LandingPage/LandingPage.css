@@ -1,0 +1,30 @@
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 72px); /* Assuming header height is 72px */
+  background: linear-gradient(to right, #0052D4, #4364F7, #6FB1FC);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.popular-categories a {
+  color: white;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.popular-categories a:hover {
+  background-color: white;
+  color: black;
+}
