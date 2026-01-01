@@ -1,14 +1,37 @@
-import React from 'react';
-import toast from 'react-hot-toast';
+import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { FiUpload } from 'react-icons/fi';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const IDVerificationPage: React.FC = () => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowConfirm(true);
+  };
+
+  const confirmSubmit = () => {
+    setShowConfirm(false);
     toast.success('Document submitted for verification!');
   };
   return (
     <div className="px-md-4">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            padding: '16px',
+            fontSize: '1.1rem',
+          },
+          success: {
+            style: {
+              background: '#28a745',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <h1 className="fw-bold mb-4">ID Verification</h1>
       <div className="card shadow-sm border-light-subtle">
         <div className="card-body p-4">
@@ -39,6 +62,16 @@ const IDVerificationPage: React.FC = () => {
           </form>
         </div>
       </div>
+
+      <ConfirmationModal
+        show={showConfirm}
+        title="Submit for Verification"
+        body={<div>Submit this document for verification?</div>}
+        confirmText="Submit"
+        confirmVariant="primary"
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={confirmSubmit}
+      />
     </div>
   );
 };

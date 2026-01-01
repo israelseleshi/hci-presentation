@@ -1,19 +1,43 @@
-import React from 'react';
-import toast from 'react-hot-toast';
+import React, { useState } from 'react';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import toast, { Toaster } from 'react-hot-toast';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const ProfilePage: React.FC = () => {
+  const [showBasicConfirm, setShowBasicConfirm] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
   const handleBasicInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Basic information saved successfully!');
+    setShowBasicConfirm(true);
   };
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Password changed successfully!');
+    setShowPasswordConfirm(true);
   };
 
   return (
     <div className="px-md-4">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            padding: '16px',
+            fontSize: '1.1rem',
+          },
+          success: {
+            style: {
+              background: '#28a745',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <h1 className="fw-bold mb-4">Settings</h1>
       <div className="card shadow-sm border-light-subtle">
         <div className="card-body p-4">
@@ -53,15 +77,30 @@ const ProfilePage: React.FC = () => {
             <form className="row g-3 align-items-end" onSubmit={handlePasswordSubmit}>
               <div className="col-md-4">
                 <label htmlFor="currentPassword" className="form-label">Verify current password</label>
-                <input type="password" className="form-control" id="currentPassword" />
+                <div className="input-group">
+                  <input type={showCurrentPassword ? 'text' : 'password'} className="form-control" id="currentPassword" />
+                  <button className="btn btn-outline-secondary" type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
+                    {showCurrentPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
               </div>
               <div className="col-md-4">
                 <label htmlFor="newPassword" className="form-label">New password</label>
-                <input type="password" className="form-control" id="newPassword" />
+                <div className="input-group">
+                  <input type={showNewPassword ? 'text' : 'password'} className="form-control" id="newPassword" />
+                  <button className="btn btn-outline-secondary" type="button" onClick={() => setShowNewPassword(!showNewPassword)}>
+                    {showNewPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
               </div>
               <div className="col-md-4">
                 <label htmlFor="confirmPassword" className="form-label">Confirm new password</label>
-                <input type="password" className="form-control" id="confirmPassword" />
+                <div className="input-group">
+                  <input type={showConfirmPassword ? 'text' : 'password'} className="form-control" id="confirmPassword" />
+                  <button className="btn btn-outline-secondary" type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
               </div>
               <div className="col-12 text-end mt-4">
                 <button type="submit" className="btn btn-success">Save</button>
@@ -70,6 +109,32 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        show={showBasicConfirm}
+        title="Save Basic Information"
+        body={<div>Save changes to your basic information?</div>}
+        confirmText="Save"
+        confirmVariant="success"
+        onCancel={() => setShowBasicConfirm(false)}
+        onConfirm={() => {
+          setShowBasicConfirm(false);
+          toast.success('Basic information saved successfully!');
+        }}
+      />
+
+      <ConfirmationModal
+        show={showPasswordConfirm}
+        title="Change Password"
+        body={<div>Are you sure you want to change your password?</div>}
+        confirmText="Change"
+        confirmVariant="success"
+        onCancel={() => setShowPasswordConfirm(false)}
+        onConfirm={() => {
+          setShowPasswordConfirm(false);
+          toast.success('Password changed successfully!');
+        }}
+      />
     </div>
   );
 };

@@ -9,3 +9,12 @@ body {
   background: linear-gradient(to right, #004e92, #000428);
   color: white;
 }
+
+.bg-primary-gradient {
+  background: linear-gradient(to right, #0052D4, #4364F7, #6FB1FC);
+  color: white;
+}
+
+.bg-blue-sidebar {
+  background-color: #0d6efd;
+}

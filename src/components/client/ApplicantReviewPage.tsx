@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { FiCheckCircle } from 'react-icons/fi';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 interface Applicant {
   id: number;
@@ -20,6 +21,8 @@ const ApplicantReviewPage: React.FC = () => {
 
   const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [confirmHire, setConfirmHire] = useState<Applicant | null>(null);
+  const [confirmReject, setConfirmReject] = useState<Applicant | null>(null);
 
   const handleViewProfile = (applicant: Applicant) => {
     setSelectedApplicant(applicant);
@@ -37,6 +40,27 @@ const ApplicantReviewPage: React.FC = () => {
 
   return (
     <div className="px-md-4">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            padding: '16px',
+            fontSize: '1.1rem',
+          },
+          success: {
+            style: {
+              background: '#28a745',
+              color: 'white',
+            },
+          },
+          error: {
+            style: {
+              background: '#dc3545',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <h1 className="fw-bold mb-4">Applicants for Website Redesign</h1>
       <div className="card shadow-sm border-light-subtle">
         <div className="card-body">
@@ -50,8 +74,8 @@ const ApplicantReviewPage: React.FC = () => {
                 </div>
                 <div>
                   <button className="btn btn-outline-secondary me-2" onClick={() => handleViewProfile(applicant)}>View Profile</button>
-                  <button className="btn btn-primary me-2" onClick={() => handleHire(applicant)}>Hire</button>
-                  <button className="btn btn-danger" onClick={() => handleReject(applicant)}>Reject</button>
+                  <button className="btn btn-primary me-2" onClick={() => setConfirmHire(applicant)}>Hire</button>
+                  <button className="btn btn-danger" onClick={() => setConfirmReject(applicant)}>Reject</button>
                 </div>
               </div>
             ))}
@@ -85,6 +109,44 @@ const ApplicantReviewPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        show={!!confirmHire}
+        title="Hire Applicant"
+        body={(
+          <div>
+            Are you sure you want to hire <strong>{confirmHire?.name}</strong>?
+          </div>
+        )}
+        confirmText="Hire"
+        confirmVariant="primary"
+        onCancel={() => setConfirmHire(null)}
+        onConfirm={() => {
+          if (confirmHire) {
+            handleHire(confirmHire);
+          }
+          setConfirmHire(null);
+        }}
+      />
+
+      <ConfirmationModal
+        show={!!confirmReject}
+        title="Reject Applicant"
+        body={(
+          <div>
+            Are you sure you want to reject <strong>{confirmReject?.name}</strong>?
+          </div>
+        )}
+        confirmText="Reject"
+        confirmVariant="danger"
+        onCancel={() => setConfirmReject(null)}
+        onConfirm={() => {
+          if (confirmReject) {
+            handleReject(confirmReject);
+          }
+          setConfirmReject(null);
+        }}
+      />
     </div>
   );
 };

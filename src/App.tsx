@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingPage from './components/public/LandingPage';
 import LoginPage from './components/auth/LoginPage';
 import SignupPage from './components/auth/SignupPage';
@@ -19,6 +20,9 @@ import FindWorkPage from './components/freelancer/FindWorkPage';
 import MyApplicationsPage from './components/freelancer/MyApplicationsPage';
 import ProfilePage from './components/freelancer/ProfilePage';
 import IDVerificationPage from './components/freelancer/IDVerificationPage';
+import FreelancerMessages from './components/freelancer/Messages';
+import ApplyForGigPage from './components/freelancer/ApplyForGigPage';
+import GigDetailsDashboardView from './components/freelancer/GigDetailsDashboardView';
 import AdminDashboardPage from './components/admin/AdminDashboardPage';
 import SystemDashboard from './components/admin/SystemDashboard';
 import IDVerificationQueue from './components/admin/IDVerificationQueue';
@@ -47,8 +51,11 @@ function App() {
         <Route path="/freelancer/dashboard" element={<FreelancerDashboardPage />}>
           <Route index element={<FreelancerDashboard />} />
           <Route path="find-work" element={<FindWorkPage />} />
+          <Route path="apply/:id" element={<ApplyForGigPage />} />
+          <Route path="gig/:id" element={<GigDetailsDashboardView />} />
           <Route path="applications" element={<MyApplicationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="messages" element={<FreelancerMessages />} />
           <Route path="id-verification" element={<IDVerificationPage />} />
         </Route>
         <Route path="/admin/dashboard" element={<AdminDashboardPage />}>

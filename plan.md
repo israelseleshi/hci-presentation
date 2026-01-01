@@ -37,3 +37,10 @@ To prevent conflicts in shared files (like `App.css` or `global.json`), it is re
 
 * Use **Tailwind CSS** classes directly in components to avoid editing a central stylesheet.
 * Establish a **naming convention** for API endpoints (e.g., Israel handles `/api/client/...` and Abel handles `/api/freelancer/...`).
+
+---
+
+### Recent Significant Changes
+
+* Added a reusable confirmation modal component and integrated confirmation steps before toast-triggering actions that are destructive/irreversible (e.g., approve/reject verification, moderation delete/ban, withdraw application, mark gig completed, profile save actions).
+* Added Freelancer dashboard features: Messages tab/page, Upload ID tab routed to the ID verification page, and a Finished Works section on My Applications with a rating modal.

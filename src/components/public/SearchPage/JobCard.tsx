@@ -11,9 +11,10 @@ interface JobCardProps {
   budget: string;
   postedTime: string;
   isNew: boolean;
+  isDashboard?: boolean;
 }
 
-const JobCard: React.FC<JobCardProps> = ({ id, title, category, description, location, budget, postedTime, isNew }) => {
+const JobCard: React.FC<JobCardProps> = ({ id, title, category, description, location, budget, postedTime, isNew, isDashboard }) => {
   return (
     <div className="card h-100 shadow-sm border-light-subtle p-3">
       <div className="card-body d-flex flex-column">
@@ -40,10 +41,10 @@ const JobCard: React.FC<JobCardProps> = ({ id, title, category, description, loc
 
         <div className="row g-2 mt-3">
           <div className="col">
-            <Link to={`/gig/${id}`} className="btn btn-outline-secondary w-100">View Details</Link>
+            <Link to={isDashboard ? `/freelancer/dashboard/gig/${id}` : `/gig/${id}`} className="btn btn-outline-secondary w-100">View Details</Link>
           </div>
           <div className="col">
-            <Link to="/login" className="btn btn-warning w-100">Apply Now</Link>
+            <Link to={isDashboard ? `/freelancer/dashboard/apply/${id}` : '/login'} className="btn btn-warning w-100">Apply Now</Link>
           </div>
         </div>
       </div>

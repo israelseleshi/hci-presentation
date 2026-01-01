@@ -1,13 +1,41 @@
 import React from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import { useClientGigs } from '../../contexts/ClientGigsContext';
 
 const PostGigForm: React.FC = () => {
+  const { addGig } = useClientGigs();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const titleInput = form.querySelector<HTMLInputElement>('#gigTitle');
+    const title = titleInput?.value?.trim() || 'Untitled Gig';
+
+    addGig({
+      id: Date.now(),
+      title,
+      status: 'Active',
+      postedAt: new Date().toISOString().slice(0, 10),
+    });
     toast.success('Gig posted successfully!');
   };
   return (
     <div className="card mx-auto" style={{ maxWidth: '800px' }}>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            padding: '16px',
+            fontSize: '1.1rem',
+          },
+          success: {
+            style: {
+              background: '#28a745',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <div className="card-body">
         <h3 className="card-title mb-4">Create a New Gig</h3>
         <form onSubmit={handleSubmit}>

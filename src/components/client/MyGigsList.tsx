@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import RateFreelancerModal from './RateFreelancerModal';
-
-interface Gig {
-  id: number;
-  title: string;
-  status: 'Active' | 'Completed';
-  postedAt: string;
-}
-
-const mockGigs: Gig[] = [
-  { id: 1, title: 'Website Redesign', status: 'Active', postedAt: '2025-12-25' },
-  { id: 2, title: 'Plumbing Repair', status: 'Completed', postedAt: '2025-11-20' },
-];
+import { useClientGigs } from '../../contexts/ClientGigsContext';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const MyGigsList: React.FC = () => {
+  const { gigs } = useClientGigs();
   const [showRateModal, setShowRateModal] = useState(false);
+  const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
 
   const handleRateSubmit = (rating: number, feedback: string) => {
     console.log('Rating:', rating, 'Feedback:', feedback);
@@ -24,6 +16,21 @@ const MyGigsList: React.FC = () => {
   };
   return (
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '900px' }}>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            padding: '16px',
+            fontSize: '1.1rem',
+          },
+          success: {
+            style: {
+              background: '#28a745',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <div className="card-header bg-white d-flex justify-content-between align-items-center">
         <h4 className="mb-0">My Gigs</h4>
       </div>
@@ -38,7 +45,7 @@ const MyGigsList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {mockGigs.map((gig) => (
+            {gigs.map((gig) => (
               <tr key={gig.id}>
                 <td>{gig.title}</td>
                 <td>
@@ -51,7 +58,7 @@ const MyGigsList: React.FC = () => {
                 <td>{gig.postedAt}</td>
                 <td>
                   {gig.status === 'Active' && (
-                    <button className="btn btn-sm btn-primary" onClick={() => setShowRateModal(true)}>
+                    <button className="btn btn-sm btn-primary" onClick={() => setShowCompleteConfirm(true)}>
                       Mark as Completed
                     </button>
                   )}
@@ -65,6 +72,19 @@ const MyGigsList: React.FC = () => {
         show={showRateModal}
         onClose={() => setShowRateModal(false)}
         onSubmit={handleRateSubmit}
+      />
+
+      <ConfirmationModal
+        show={showCompleteConfirm}
+        title="Mark Gig as Completed"
+        body={<div>Are you sure you want to mark this gig as completed?</div>}
+        confirmText="Continue"
+        confirmVariant="primary"
+        onCancel={() => setShowCompleteConfirm(false)}
+        onConfirm={() => {
+          setShowCompleteConfirm(false);
+          setShowRateModal(true);
+        }}
       />
     </div>
   );
